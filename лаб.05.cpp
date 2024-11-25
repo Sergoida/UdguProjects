@@ -1,4 +1,3 @@
-
 /*
     Лабораторная работа №5
     Вариант 26
@@ -8,50 +7,41 @@
     среди них все тройки Пифагора.
 */
 
-
 #include <iostream>
 #include <cmath>
-#include <vector>
-#include <tuple>
 #include <locale.h>
 
 using namespace std;
 
-// Функция для проверки, является ли тройка Пифагоровой
-bool isPythagoreanTriple(double x, double y, double z) {
+// Функция для проверки, являются ли три числа тройкой Пифагора
+bool isTriple(double x, double y, double z) {
     return (abs(x * x + y * y - z * z) == 0);  
 }
 
-// Функция для поиска всех Пифагоровых троек
-vector<tuple<double, double, double>> findPythagoreanTriples(double a, double b, double c, double d) {
-    vector<tuple<double, double, double>> triples;
+// Функция для поиска и вывода троек Пифагора 
+void findTriples(double a, double b, double c, double d) {
+    bool found = false;
 
-    // Проверка всех возможных троек
-    if (isPythagoreanTriple(a, b, c)) {
-        triples.emplace_back(make_tuple(a, b, c));
+    // Проверяем все возможные комбинации тройки
+    if (isTriple(a, b, c)) {
+        cout << "Тройка Пифагора: (" << a << ", " << b << ", " << c << ")"<<endl;
+        found = true;
     }
-    if (isPythagoreanTriple(a, b, d)) {
-        triples.emplace_back(make_tuple(a, b, d));
+    if (isTriple(a, b, d)) {
+        cout << "Тройка Пифагора: (" << a << ", " << b << ", " << d << ")"<<endl;
+        found = true;
     }
-    if (isPythagoreanTriple(a, c, d)) {
-        triples.emplace_back(make_tuple(a, c, d));
+    if (isTriple(a, c, d)) {
+        cout << "Тройка Пифагора: (" << a << ", " << c << ", " << d << ")"<<endl;
+        found = true;
     }
-    if (isPythagoreanTriple(b, c, d)) {
-        triples.emplace_back(make_tuple(b, c, d));
+    if (isTriple(b, c, d)) {
+        cout << "Тройка Пифагора: (" << b << ", " << c << ", " << d << ")"<<endl;
+        found = true;
     }
 
-    return triples;
-}
-
-// Функция для вывода пифагоровых троек
-void printPythagoreanTriples(const vector<tuple<double, double, double>>& triples) {
-    if (triples.empty()) {
-        cout << "Нет найденных Пифагоровых троек." << endl;
-    } else {
-        cout << "Найденные Пифагоровы тройки:" << endl;
-        for (const auto& triple : triples) {
-            cout << "(" << get<0>(triple) << ", " << get<1>(triple) << ", " << get<2>(triple) << ")" << endl;
-        }
+    if (!found) {
+        cout << "Тройки Пифагора не найдены."<<endl;
     }
 }
 
@@ -60,12 +50,17 @@ int main() {
     
     double a, b, c, d;
 
-    cout << "Введите четыре положительных вещественных числа (a, b, c, d): ";
+    cout << "Введите четыре положительных числа (a, b, c, d): "<<endl;
     cin >> a >> b >> c >> d;
 
-    auto foundTriples = findPythagoreanTriples(a, b, c, d);
-    printPythagoreanTriples(foundTriples);
+    // Проверка на положительность
+    if (a <= 0 || b <= 0 || c <= 0 || d <= 0) {
+        cout << "Все числа должны быть положительными."<<endl;
+        return 1;
+    }
+
+    // Поиск троек Пифагора
+    findTriples(a, b, c, d);
 
     return 0;
 }
-    
