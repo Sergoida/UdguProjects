@@ -17,59 +17,53 @@
 
 using namespace std;
 
-void newMatrix(int** &matrix, int m, int n) {
-    matrix = new int*[m];
-    for (int i = 0; i < m; i++) {
-        matrix[i] = new int[n];
-    }
-    for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++) {
-            matrix[i][j] = i*10 + j;
-        }
-    }
+void newMatrix(int**& matrix, int m, int n)
+{
+matrix = new int* [m];
+for (int i = 0; i < m; i++)
+matrix[i] = new int[n];
 }
-// Функция для формирования последовательности змейкой
-void getSnake(int** matrix, int m, int n, int* snake) {
-    int k = 0;
-
-    for (int i = 0; i < m; ++i) {
-        if (i % 2 == 0) { // Четная строка
-            for (int j = 0; j < n; ++j) {
-                snake[k++] = matrix[i][j]; 
-            }
-        } else { // Нечетная строка
-            for (int j = n - 1; j >= 0; --j) {
-                snake[k++] = matrix[i][j]; 
-            }
-        }
-    }
-}
-
-
-// Функция для заполнения матрицы из змейки
-void matrixSnake(int** matrix, int m, int n, int* snake) {
-    int k = 0;
-
+//Функция для создания новой матрицы.
+void fullMatrix(int** matrix, int m, int n) {
+    int num = 1;
     for (int i = 0; i < m; ++i) {
         for (int j = 0; j < n; ++j) {
-                matrix[i][j] = snake[k++];
+            matrix[i][j] = num++;
         }
     }
 }
-
-// Функция для циклического сдвига элементов змейки
-void shiftSnake(int* snake, int length) {
-    if (length == 0) return;
-    
-    int lastElement = snake[length - 1]; 
-    for (int i = length - 1; i > 0; --i) {
-        snake[i] = snake[i - 1]; 
+// Функция для вывода матрицы змейкой
+void printSnake(int** matrix, int m, int n) {
+    for (int i = 0; i < m; ++i) {
+        if (i % 2 == 0) { // Четные строки
+            for (int j = 0; j < n; ++j) {
+                cout << setw(4) << matrix[i][j];
+            }
+        } else { // Нечетные строки
+            for (int j = n - 1; j >= 0; --j) {
+                cout << setw(4) << matrix[i][j];
+            }
+        }
+        cout << endl;
     }
-    snake[0] = lastElement; 
+}
+// Функция для выполнения циклического сдвига в матрице 
+void rotateMatrix(int** matrix, int m, int n) {
+    int lastElement = matrix[m - 1][n - 1]; 
+    for (int i = m - 1; i >= 0; --i) {
+        for (int j = n - 1; j > 0; --j) {
+            matrix[i][j] = matrix[i][j - 1]; // Сдвигаем элементы вправо
+        }
+        if (i > 0) {
+            matrix[i][0] = matrix[i - 1][n - 1]; // Сдвигаем элемент сверху
+        }
+    }
+    
+    matrix[0][0] = lastElement; // Перемещаем последний элемент в верхний левый угол
 }
 
 // Функция для вывода матрицы
-void printMatrix(int **matrix, int m, int n) {
+void printMatrix(int** matrix, int m, int n) {
     for (int i = 0; i < m; i++) {
         for (int j = 0; j < n; j++) {
             cout << setw(4) << matrix[i][j];
@@ -77,6 +71,7 @@ void printMatrix(int **matrix, int m, int n) {
         cout << endl; 
     }
 }
+
 int main() {
     setlocale(LC_ALL, "Russian");
     int m;
@@ -87,19 +82,18 @@ int main() {
     cin>> n;
     
     int** matrix; 
-    int* snake = new int[m * n];
 
     newMatrix(matrix, m, n);
+    fullMatrix(matrix, m, n);
     cout << "Изначальная матрица:" << endl;
     printMatrix(matrix, m, n);
 
-    getSnake(matrix, m, n, snake);
-    int length = m * n; 
-    shiftSnake(snake, length);
+    cout << "Матрица змейкой:" << endl;
+    printSnake(matrix, m, n);
     
-    matrixSnake(matrix, m, n, snake);
+    rotateMatrix(matrix, m, n);
     cout << "Матрица после циклического сдвига:" << endl;
-    printMatrix(matrix, m, n);
+    printSnake(matrix, m, n);
     
     return 0;
 }
