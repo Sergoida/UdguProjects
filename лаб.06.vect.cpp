@@ -10,26 +10,25 @@
     операцию возведения в степень не использовать
 */
 
-#include <locale.h>
 #include <iostream>
-#include <cstdlib> 
-#include <vector>  
+#include <vector>
+#include <locale.h>
 
 using namespace std;
 
 // Функция для ввода коэффициентов многочлена
-void inputCoefficients(vector<double>& coefficients, int n) {
-    cout << "Введите коэффициенты многочлена, начиная со старшего (a_n, a_{n-1}, ..., a_0):"<< endl;
-    for (int i = 0; i <= n; i++) {
+void inputCoefficients(vector<double>& coefficients) {
+    cout << "Введите коэффициенты многочлена, начиная со старшего (a_n, a_{n-1}, ..., a_0):" << endl;
+    for (size_t i = 0; i < coefficients.size(); i++) {
         cout << "a[" << i << "]: ";
         cin >> coefficients[i];
     }
 }
 
 // Функция для вычисления значения многочлена 
-double evaluatePolynomial(vector<double>& coefficients, int n, double x) {
+double evaluatePolynomial(const vector<double>& coefficients, double x) {
     double result = coefficients[0]; 
-    for (int i = 1; i <= n; i++) {
+    for (size_t i = 1; i < coefficients.size(); i++) {
         result = result * x + coefficients[i];
     }
     return result;
@@ -39,21 +38,21 @@ int main() {
     setlocale(LC_ALL, "Russian");
     
     int n; 
-    cout << "Введите степень многочлена (n): "<<endl;
+    cout << "Введите степень многочлена (n): " << endl;
     cin >> n;
 
+    // Создаем вектор с n + 1 элементами для коэффициентов
     vector<double> coefficients(n + 1);
-    
-    inputCoefficients(coefficients, n);
+
+    inputCoefficients(coefficients);
 
     double x;
-    cout << "Введите значение x: "<<endl;
+    cout << "Введите значение x: " << endl;
     cin >> x;
 
-    double result = evaluatePolynomial(coefficients, n, x);
+    double result = evaluatePolynomial(coefficients, x);
 
     cout << "Значение многочлена для x = " << x << " равно: " << result << endl;
 
+    return 0;
 }
-    
-    
