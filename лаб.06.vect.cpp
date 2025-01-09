@@ -16,32 +16,32 @@
 
 using namespace std;
 
-// Функция для ввода коэффициентов многочлена
+// Функция для ввода коэффициентов многочлена 
 void inputCoefficients(vector<double>& coefficients) {
     cout << "Введите коэффициенты многочлена, начиная со старшего (a_n, a_{n-1}, ..., a_0):" << endl;
-    for (size_t i = 0; i < coefficients.size(); i++) {
-        cout << "a[" << i << "]: ";
-        cin >> coefficients[i];
+    for (auto it = coefficients.begin(); it != coefficients.end(); ++it) {
+        cout << "a[" << (it - coefficients.begin()) << "]: "; // Печатаем индекс для удобства
+        cin >> *it;
     }
 }
 
-// Функция для вычисления значения многочлена 
+// Функция для вычисления значения многочлена  
 double evaluatePolynomial(const vector<double>& coefficients, double x) {
-    double result = coefficients[0]; 
-    for (size_t i = 1; i < coefficients.size(); i++) {
-        result = result * x + coefficients[i];
+    double result = *coefficients.begin(); // Начальное значение
+    for (auto it = coefficients.begin() + 1; it != coefficients.end(); ++it) {
+        result = result * x + *it;
     }
     return result;
 }
 
 int main() {
     setlocale(LC_ALL, "Russian");
-    
-    int n; 
+
+    int n;
     cout << "Введите степень многочлена (n): " << endl;
     cin >> n;
 
-    // Создаем вектор с n + 1 элементами для коэффициентов
+    // Создаем вектор с n + 1 элементами для коэффициентов 
     vector<double> coefficients(n + 1);
 
     inputCoefficients(coefficients);
