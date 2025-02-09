@@ -40,26 +40,26 @@ void matrixSnake(vector<vector<int>>& matrix) {
 
 // Функция для выполнения циклического сдвига в матрице
 void shiftMatrix(vector<vector<int>>& matrix) {
-    int a = 1;
-    int b = 1;
     for (auto row = matrix.begin(); row != matrix.end(); ++row) {
         if ((row - matrix.begin()) % 2 == 0) { // Четные строки
-            for (auto col = row->begin(); col != row->end(); ++col) {
+            // Сохранение последнего элемента для перемещения в начало
+            int firstElem = matrix[matrix.size()-1][matrix[matrix.size()-1].size()-1];
+            int lastElem = row->back(); 
+            for (auto col = row->end() - 1; col != row->begin(); --col) {
                 if (row == matrix.begin() && col == row->begin()) continue; // Пропускаем первую ячейку
-                b = *col;
-                *col = a;
-                a = b;
+                *col = *(col - 1);
             }
+            row->front() = firstElem; // Помещение сохраненного элемента в начало строки
         } else { // Нечетные строки
-            for (auto col = row->end() - 1; col >= row->begin(); --col) {
+            // Сохранение первого элемента для перемещения в конец
+            firstElem = row->front(); 
+            for (auto col = row->begin(); col != row->end() - 1; ++col) {
                 if (row == matrix.end() - 1 && col == row->end() - 1) continue; // Пропускаем последнюю ячейку
-                b = *(col);
-                *col = a;
-                a = b;
+                *col = *(col + 1);
             }
+            row->back() = lastElem; // Помещение сохраненного элемента в конец строки
         }
     }
-    matrix[0][0] = a;
 }
 
 // Функция для вывода матрицы
