@@ -26,7 +26,7 @@ void inputCoefficients(vector<double>& coefficients) {
 }
 
 // Функция для вычисления значения многочлена  
-double evaluatePolynomial(const vector<double>& coefficients, double x) {
+double polynomialResult(const vector<double>& coefficients, double x) {
     double result = *coefficients.begin(); // Начальное значение
     for (auto it = coefficients.begin() + 1; it != coefficients.end(); ++it) {
         result = result * x + *it;
@@ -50,7 +50,7 @@ int main() {
     cout << "Введите значение x: " << endl;
     cin >> x;
 
-    double result = evaluatePolynomial(coefficients, x);
+    double result = polynomialResult(coefficients, x);
 
     cout << "Значение многочлена для x = " << x << " равно: " << result << endl;
 
